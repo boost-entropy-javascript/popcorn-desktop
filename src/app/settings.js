@@ -2,16 +2,17 @@
 var Settings = {
   projectName: 'Popcorn Time',
   projectUrl: 'https://popcorntime.app',
-  projectCi: 'https://ci.popcorntime.app',
-  projectBlog: 'https://blog.popcorntime.app/',
+  projectCi: 'https://github.com/popcorn-official/popcorn-desktop/actions',
+  projectBlog: 'https://github.com/popcorn-official/popcorn-desktop/wiki',
   projectForum: 'https://www.reddit.com/r/PopcornTimeApp',
   projectForum2: 'https://discuss.popcorntime.app',
-  statusUrl: 'http://status.popcorntime.app',
+  statusUrl: 'https://status.popcorntime.app',
   changelogUrl: 'https://github.com/popcorn-official/popcorn-desktop/commits/master',
   issuesUrl: 'https://github.com/popcorn-official/popcorn-desktop/issues',
   sourceUrl: 'https://github.com/popcorn-official/popcorn-desktop/',
   commitUrl: 'https://github.com/popcorn-official/popcorn-desktop/commit',
   dht: '',
+  dhtInfo: '',
   updateKey:
     '-----BEGIN PUBLIC KEY-----\n' +
     'MIIBtjCCASsGByqGSM44BAEwggEeAoGBAPNM5SX+yR8MJNrX9uCQIiy0t3IsyNHs\n' +
