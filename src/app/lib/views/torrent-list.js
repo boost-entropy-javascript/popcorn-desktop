@@ -9,6 +9,7 @@
             'click .item-play': 'addItem',
             'click .item-download': 'addItem',
             'mousedown .provider img': 'openSource',
+            'contextmenu .item-row td:not(.provider)': 'copyMagnet',
         },
         initialize: function() {
             this.model.set('torrents', []);
@@ -24,7 +25,8 @@
             let loadIcons = [];
             for(let torrent of torrents) {
                 loadIcons.push(this.icons.getLink(provider, torrent.provider)
-                    .then((icon) => torrent.icon = icon || '/src/app/images/icon.png'));
+                    .then((icon) => torrent.icon = icon || '/src/app/images/icons/' + torrent.provider + '.png')
+                    .catch((error) => { !torrent.icon ? torrent.icon = '/src/app/images/icons/' + torrent.provider + '.png' : null; }));
             }
             Promise.all(loadIcons).then((data) => {
                 this.model.set('torrents', torrents);
@@ -35,6 +37,9 @@
                         'hide': 100
                     }
                 });
+                if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
+                    $('#torrent-list .item-row, #torrent-show-list .item-row, #torrent-list .item-play, #torrent-show-list .item-play').addClass('disabled').prop('disabled', true);
+                }
             });
         },
 
@@ -46,6 +51,12 @@
         openSource: function(e) {
             const torrent = this.getTorrent(e.target);
             Common.openOrClipboardLink(e, torrent.source, i18n.__('source link'));
+        },
+
+        copyMagnet: function(e) {
+            const torrent = this.getTorrent(e.target);
+            const magnetLink = torrent.url.split('&tr=')[0] + _.union(decodeURIComponent(torrent.url).replace(/\/announce/g, '').split('&tr=').slice(1), Settings.trackers.forced.toString().replace(/\/announce/g, '').split(',')).map(t => `&tr=${t}/announce`).join('');
+            Common.openOrClipboardLink(e, magnetLink, i18n.__('magnet link'));
         },
 
         addItem: function (e) {

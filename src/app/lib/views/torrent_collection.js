@@ -11,11 +11,12 @@
 
         events: {
             'click .file-item': 'openFileSelector',
+            'contextmenu .file-item > *': 'openMagnet',
             'click .result-item': 'onlineOpen',
+            'contextmenu .result-item > *': 'openMagnet',
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
             'click .magnet-icon': 'openMagnet',
-            'contextmenu .magnet-icon': 'openMagnet',
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
             'click .collection-open': 'openCollection',
@@ -152,6 +153,8 @@
                                     return;
                                 }
                                 var itemModel = {
+                                    provider: 'thepiratebay.org',
+                                    icon: 'tpb',
                                     title: item.name,
                                     magnet: item.magnetLink,
                                     seeds: item.seeders,
@@ -193,6 +196,8 @@
                             data.torrents.forEach(function (item) {
                                 leet.info('https://1337x.to' + item.href).then(function (ldata) {
                                     var itemModel = {
+                                        provider: '1337x.to',
+                                        icon: 'T1337x',
                                         title: ldata.title,
                                         magnet: ldata.download.magnet,
                                         seeds: ldata.seeders,
@@ -235,6 +240,8 @@
                             $('#enableRarbgSearchL').attr('title', data.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.forEach(function (item) {
                                 var itemModel = {
+                                    provider: 'rarbg.to',
+                                    icon: 'rarbg',
                                     title: item.title,
                                     magnet: item.download,
                                     seeds: item.seeders,
@@ -275,6 +282,8 @@
                             data.torrents.forEach(function (item) {
                                 omg.info(item.href).then(function (ldata) {
                                     var itemModel = {
+                                        provider: 'omgtorrent.to',
+                                        icon: 'omgtorrent',
                                         title: ldata.title,
                                         magnet: ldata.download.magnet,
                                         seeds: ldata.seeders,
@@ -340,14 +349,15 @@
                 return Promise.all(items.map(function (item) {
                     that.onlineAddItem(item);
                 })).then(function () {
+                    if ($('.loading .maximize-icon').is(':visible')) {
+                        $('.result-item, .collection-actions').addClass('disabled').prop('disabled', true);
+                    }
                     $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
                     $('.togglesengines').css('visibility', 'visible');
                     $('.onlinesearch-info').show();
-
                     if (items.length === 0) {
                         $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
                     }
-
                     that.$('.tooltipped').tooltip({
                         html: true,
                         delay: {
@@ -360,30 +370,14 @@
         },
 
         onlineAddItem: function (item) {
-            var ratio = item.peers > 0 ? item.seeds / item.peers : +item.seeds;
             $('.onlinesearch-info>ul.file-list').append(
                 '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '">'+
                     '<a>' + item.title + '</a>'+
-                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="right" title="' + i18n.__('Magnet link') + '"></div>'+
-                    '<i class="online-size tooltipped" data-toggle="tooltip" data-placement="left" title="' + i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + item.seeds + ' - ' + i18n.__('Peers:') + ' ' + item.peers + '">'+
-                        item.size+
-                    '</i>'+
+                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png" onerror="this.parentElement.innerHTML=`&#xf076`"></div>'+
+                    '<div class="online-health tooltipped" title="' + i18n.__('Seeds') + ' / ' + i18n.__('Peers') + '" data-toggle="tooltip" data-container="body" data-placement="top">'+item.seeds+' / '+item.peers+'</div>'+
+                    '<div class="online-size">'+item.size+'</div>'+
                 '</li>'
             );
-            if (item.seeds === 0) { // recalc the peers/seeds
-                require('webtorrent-health')(item.magnet, {
-                    timeout: 1000,
-                    blacklist: Settings.trackers.blacklisted,
-                    force: Settings.trackers.forced
-                }).then(function (res) {
-                    //console.log('torrent index %s: %s -> %s (seeds)', item.index, item.seeds, res.seeds)
-                    ratio = res.peers > 0 ? res.seeds / res.peers : +res.seeds;
-                    $('.result-item[data-index=' + item.index + '] i').attr('data-original-title', i18n.__('Ratio:') + ' ' + ratio.toFixed(2) + '<br>' + i18n.__('Seeds:') + ' ' + res.seeds + ' - ' + i18n.__('Peers:') + ' ' + res.peers);
-                });
-            }
-            if ($('.loading .maximize-icon').is(':visible')) {
-                $('.result-item, .collection-actions').addClass('disabled').prop('disabled', true);
-            }
         },
 
         onlineOpen: function (e) {

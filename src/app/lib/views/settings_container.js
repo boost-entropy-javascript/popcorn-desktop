@@ -323,7 +323,6 @@
                 case 'coversShowRating':
                 case 'torColSearchMore':
                 case 'showSeedboxOnDlInit':
-                case 'showSubmitMeta':
                 case 'expandedSearch':
                 case 'showUndoRBookmark':
                 case 'nativeWindowFrame':
@@ -344,7 +343,6 @@
                 case 'activateSeedbox':
                 case 'activateWatchlist':
                 case 'activateTempf':
-                case 'opensubtitlesAutoUpload':
                 case 'subtitles_bold':
                 case 'multipleExtSubtitles':
                 case 'moviesTabEnable':
@@ -617,7 +615,6 @@
                 case 'multipleExtSubtitles':
                 case 'torColSearchMore':
                 case 'httpApiEnabled':
-                case 'showSubmitMeta':
                 case 'expandedSearch':
                 case 'playNextEpisodeAuto':
                     $('.nav-hor.left li:first').click();

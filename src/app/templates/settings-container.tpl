@@ -118,10 +118,6 @@
                 <label class="settings-label" for="showUndoRBookmark"><%= i18n.__("Show an 'Undo' button when a bookmark is removed") %></label>
             </span>
             <span class="advanced">
-                <input class="settings-checkbox" name="showSubmitMeta" id="showSubmitMeta" type="checkbox" <%=(Settings.showSubmitMeta? "checked='checked'":"")%>>
-                <label class="settings-label" for="showSubmitMeta"><%= i18n.__("Show the 'Submit metadata & translations' button") %></label>
-            </span>
-            <span class="advanced">
                 <input class="settings-checkbox" name="expandedSearch" id="expandedSearch" type="checkbox" <%=(Settings.expandedSearch? "checked='checked'":"")%>>
                 <label class="settings-label" for="expandedSearch"><%= i18n.__("Search field always expanded") %></label>
             </span>
@@ -399,10 +395,6 @@
                     <span>
                         <input class="settings-checkbox" name="multipleExtSubtitles" id="multipleExtSubtitles" type="checkbox" <%=(Settings.multipleExtSubtitles? "checked='checked'":"")%>>
                         <label class="settings-label" for="multipleExtSubtitles"><%= i18n.__("Show all available subtitles for default language in flag menu") %></label>
-                    </span>
-                    <span>
-                        <input class="settings-checkbox" name="opensubtitlesAutoUpload" id="opensubtitlesAutoUpload" type="checkbox" <%=(Settings.opensubtitlesAutoUpload? "checked='checked'":"")%>>
-                        <label class="settings-label" for="opensubtitlesAutoUpload"><%= i18n.__("Automatic Subtitle Uploading") %></label>
                     </span>
                     <span>
                         <em>* <%= i18n.__("You are currently connected to %s", "OpenSubtitles.org") %>.

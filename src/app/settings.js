@@ -142,7 +142,6 @@ Settings.moviesTabEnable = true;
 Settings.seriesTabEnable = true;
 Settings.animeTabEnable = true;
 Settings.showSeedboxOnDlInit = true;
-Settings.showSubmitMeta = true;
 Settings.showUndoRBookmark = true;
 Settings.expandedSearch = false;
 
@@ -173,7 +172,6 @@ Settings.traktSyncOnStart = true;
 Settings.traktPlayback = true;
 
 // OpenSubtitles
-Settings.opensubtitlesAutoUpload = true;
 Settings.opensubtitlesAuthenticated = false;
 Settings.opensubtitlesUsername = '';
 Settings.opensubtitlesPassword = '';
@@ -207,10 +205,10 @@ Settings.activateWatchlist = true;
 Settings.activateTempf = true;
 Settings.activateSeedbox = true;
 Settings.toggleSengines = false;
-Settings.enableThepiratebaySearch = true;
+Settings.enableThepiratebaySearch = false;
 Settings.enable1337xSearch = true;
 Settings.enableRarbgSearch = true;
-Settings.enableOmgtorrentSearch = true;
+Settings.enableOmgtorrentSearch = false;
 
 // Ratio
 Settings.totalDownloaded = 0;

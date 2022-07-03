@@ -72,6 +72,7 @@
             const providers = this.model.get('providers');
             healthButton = new Common.HealthButton('.health-icon', this.retrieveTorrentHealth.bind(this));
             this.model.set('showTorrentsMore', providers.torrent.feature('torrents'));
+            this.icons = App.Providers.get('Icons');
 
             //Handle keyboard shortcuts when other views are appended or removed
             // init fields in model
@@ -255,7 +256,7 @@
             $('.spinner').hide();
 
             if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
-                $('.sdow-watchnow, #download-torrent').addClass('disabled');
+                $('.sdow-watchnow, #download-torrent, .sd-overview #torrent-list').addClass('disabled');
                 $('#watch-now').prop('disabled', true);
             }
         },
@@ -785,6 +786,7 @@
             startStreaming.attr('data-file', torrent.file || '');
             startStreaming.attr('data-torrent', torrent.url);
             startStreaming.attr('data-source', torrent.source);
+            startStreaming.attr('data-provider', torrent.provider);
             startStreaming.attr('data-quality', key);
             downloadButton.attr('data-torrent', torrent.url);
             downloadButton.attr('data-file', torrent.file || '');
@@ -936,9 +938,17 @@
 
         toggleSourceLink: function () {
             const sourceURL = $('.startStreaming').attr('data-source');
+            const provider = $('.startStreaming').attr('data-provider');
+            let providerIcon;
             if (sourceURL) {
+                const showProvider = App.Config.getProviderForType('tvshow')[0];
+                this.icons.getLink(showProvider, provider)
+                    .then((icon) => providerIcon = icon || '/src/app/images/icons/' + provider + '.png')
+                    .catch((error) => { !providerIcon ? providerIcon = '/src/app/images/icons/' + provider + '.png' : null; })
+                    .then(() => $('.source-icon').html(`<img src="${providerIcon}" onerror="this.style.display='none'; this.parentElement.style.top='0'; this.parentElement.classList.add('fas', 'fa-link')">`));
                 $('.source-icon').show().attr('data-original-title', sourceURL.split('//').pop().split('/')[0]);
             } else {
+                $('.source-icon').html('');
                 $('.source-icon').hide();
             }
         },
