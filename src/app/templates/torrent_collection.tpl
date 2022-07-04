@@ -16,7 +16,7 @@
                 <div class="dropdown-arrow"></div>
             </div>
             <form id="online-form">
-                <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search for torrent') %>">
+                <input id="online-input" autocomplete="off" size="34" type="text" name="keyword" placeholder="<%= i18n.__('Search') %>">
                 <i class="fa fa-search online-search tooltipped" data-placement="bottom" data-toogle="tooltip"></i>
                 <i class="fa fa-caret-down togglesengines"></i>
                 <div class="search_in">
@@ -42,8 +42,7 @@
 
         <div class="notorrents-info">
             <div class="notorrents-frame">
-                <i class="fas fa-paste notorrents-icon"></i>
-                <p class="notorrents-message"><%= i18n.__("Drop Magnet or .torrent")%></p>
+                <p class="notorrents-message"><%= i18n.__("Search for something or drop a .torrent / magnet link...")%></p>
             </div>
         </div>
 
