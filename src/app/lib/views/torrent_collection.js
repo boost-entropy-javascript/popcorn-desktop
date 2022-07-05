@@ -10,7 +10,7 @@
         className: 'torrent-collection',
 
         events: {
-            'click .file-item': 'openFileSelector',
+            'click .file-item a': 'openFileSelector',
             'contextmenu .file-item > *:not(.torrent-icon)': 'openMagnet',
             'click .result-item': 'onlineOpen',
             'contextmenu .result-item > *': 'openMagnet',
@@ -21,7 +21,6 @@
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
             'click .collection-open': 'openCollection',
-            'mousedown .notorrents-frame': 'notorrentsClick',
             'click .online-search': 'onlineSearch',
             'submit #online-form': 'onlineSearch',
             'click .online-back': 'onlineClose',
@@ -53,14 +52,13 @@
             $('#online-input').focus();
             if (this.files[0]) {
                 $('.notorrents-info').css('display', 'none');
-                $('.collection-actions').css('display', 'block');
                 $('.torrents-info').css('display', 'block');
             }
             if (Settings.toggleSengines) {
                 this.togglesengines();
             }
             if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
-                $('.file-item, .collection-actions').addClass('disabled').prop('disabled', true);
+                $('.file-item, .file-item a, .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
             }
 
             clearTimeout(hidetooltps);
@@ -111,7 +109,7 @@
             var input = $('#online-input').val();
             var category = $('.online-categories > select').val();
             AdvSettings.set('OnlineSearchCategory', category);
-            if (category === 'TV Series') {
+            if (category === 'Series') {
                 category = 'TV';
             }
             var current = $('.onlinesearch-info > ul.file-list').html();
@@ -351,7 +349,7 @@
                     that.onlineAddItem(item);
                 })).then(function () {
                     if ($('.loading .maximize-icon').is(':visible')) {
-                        $('.result-item, .collection-actions').addClass('disabled').prop('disabled', true);
+                        $('.result-item, .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
                     $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
                     $('.togglesengines').css('visibility', 'visible');
@@ -431,7 +429,7 @@
         },
 
         openFileSelector: function (e) {
-            var _file = e.currentTarget.innerText,
+            var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
             if (_file.indexOf('.torrent') !== -1) {
@@ -483,12 +481,26 @@
             var _file = e.currentTarget.parentNode.innerText,
                 file = _file.substring(0, _file.length - 2); // avoid ENOENT
 
-            fs.unlinkSync(collection + file);
-            console.debug('Torrent Collection: deleted', file);
+            var delItem = function () {
+                App.vent.trigger('notification:close');
+                fs.unlinkSync(collection + file);
+                console.debug('Torrent Collection: deleted', file);
+                this.files = fs.readdirSync(collection);
+                this.render();
+                $('.notification_alert').stop().text(i18n.__('Torrent removed')).fadeIn('fast').delay(1500).fadeOut('fast');
+            }.bind(this);
 
-            // update collection
-            this.files = fs.readdirSync(collection);
-            this.render();
+            var keepItem = function () {
+                App.vent.trigger('notification:close');
+            };
+
+            App.vent.trigger('notification:show', new App.Model.Notification({
+                title: '',
+                body: '<font size="3">' + i18n.__('Remove') + '</font><br>' + file,
+                showClose: false,
+                type: 'info',
+                buttons: [{ title: '<label class="export-database" for="exportdatabase">' + i18n.__('Yes') + '</label>', action: delItem }, { title: '<label class="export-database" for="exportdatabase">' + i18n.__('No') + '</label>', action: keepItem }]
+            }));
         },
 
         renameItem: function (e) {
@@ -541,12 +553,18 @@
         },
 
         pasteItem: function () {
+            if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
+                return;
+            }
             var data = clipboard.get('text');
             Settings.droppedMagnet = data;
             window.handleTorrent(data, 'text');
         },
 
         importItem: function () {
+            if ($('.loading .maximize-icon').is(':visible') || $('.player .maximize-icon').is(':visible')) {
+                return;
+            }
             this.$('.tooltip').css('display', 'none');
 
             var that = this;
@@ -568,14 +586,6 @@
         openCollection: function () {
             console.debug('Opening: ' + collection);
             App.settings.os === 'windows' ? nw.Shell.openExternal(collection) : nw.Shell.openItem(collection);
-        },
-
-        notorrentsClick: function (e) {
-            if (e.button === 0) {
-                this.importItem();
-            } else if (e.button === 2) {
-                this.pasteItem();
-            }
         },
 
         onBeforeDestroy: function () {
