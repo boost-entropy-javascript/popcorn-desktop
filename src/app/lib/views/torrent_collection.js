@@ -262,8 +262,8 @@
                                     icon: 'TorrentGalaxy',
                                     title: item.title,
                                     magnet: item.magnet,
-                                    seeds: item.seed.split(/\D+/g)[0],
-                                    peers: item.leech.split(/\D+/g)[0],
+                                    seeds: item.seed,
+                                    peers: item.leech,
                                     size: item.size,
                                     index: index
                                 };

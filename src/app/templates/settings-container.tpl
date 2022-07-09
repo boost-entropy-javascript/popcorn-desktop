@@ -80,20 +80,12 @@
                 <input class="settings-checkbox" name="coversShowRating" id="coversShowRating" type="checkbox" <%=(Settings.coversShowRating? "checked='checked'":"")%>>
                 <label class="settings-label" for="coversShowRating"><%= i18n.__("Show rating over covers") %></label>
             </span>
-            <span>
-                <input class="settings-checkbox" name="moviesShowQuality" id="moviesShowQuality" type="checkbox" <%=(Settings.moviesShowQuality? "checked='checked'":"")%>>
-                <label class="settings-label" for="moviesShowQuality"><%= i18n.__("Show movie quality on list") %></label>
-            </span>
             <% if (Settings.activateSeedbox) { %>
             <span>
                 <input class="settings-checkbox" name="showSeedboxOnDlInit" id="showSeedboxOnDlInit" type="checkbox" <%=(Settings.showSeedboxOnDlInit? "checked='checked'":"")%>>
                 <label class="settings-label" for="showSeedboxOnDlInit"><%= i18n.__("Show the Seedbox when a new download is added") %></label>
             </span>
             <% } %>
-            <span>
-                <input class="settings-checkbox" name="showUndoRBookmark" id="showUndoRBookmark" type="checkbox" <%=(Settings.showUndoRBookmark? "checked='checked'":"")%>>
-                <label class="settings-label" for="showUndoRBookmark"><%= i18n.__("Show an 'Undo' button when a bookmark is removed") %></label>
-            </span>
             <span>
                 <input class="settings-checkbox" name="expandedSearch" id="expandedSearch" type="checkbox" <%=(Settings.expandedSearch? "checked='checked'":"")%>>
                 <label class="settings-label" for="expandedSearch"><%= i18n.__("Search field always expanded") %></label>
@@ -207,7 +199,7 @@
             </span>
             <span>
                 <div class="dropdown subtitles-language">
-                    <p><%= i18n.__("Preferred Content Language") %></p>
+                    <p><%= i18n.__("Default Content Language") %></p>
                     <%
                         var langs = "<option "+(Settings.contentLanguage == ""? "selected='selected'":"")+" value=''>"+i18n.__("Same as Default Language")+"</option>";
                         for(var key in App.Localization.allTranslations) {
@@ -220,10 +212,8 @@
                     <select name="contentLanguage"><%=langs%></select>
                     <div class="dropdown-arrow"></div>
                 </div>
-            </span>
-            <span>
                 <input class="settings-checkbox" name="contentLangOnly" id="contentLangOnly" type="checkbox" <%=(Settings.contentLangOnly? "checked='checked'":"")%>>
-                <label class="settings-label" for="contentLangOnly" id="contentLangOnly"><%= i18n.__("Only show content available in the preferred language") %> </label>
+                <label class="settings-label" for="contentLangOnly" id="contentLangOnly"><%= i18n.__("Only show content available in this language") %> </label>
             </span>
             <span>
                 <div class="dropdown translateTitle">
@@ -449,7 +439,7 @@
         <div class="title"><%= i18n.__("Features") %></div>
         <div class="content">
             <span>
-                <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist? "checked='checked'":"")%>>
+                <input class="settings-checkbox" name="activateWatchlist" id="activateWatchlist" type="checkbox" <%=(Settings.activateWatchlist && App.Trakt.authenticated? "checked='checked'":"")%>>
                 <label class="settings-label" for="activateWatchlist"><%= i18n.__("Watchlist") %></label>
                 <div class="trakt-options<%= App.Trakt.authenticated ? " authenticated" : "" %>">
                     <% if (App.Trakt.authenticated) { %>
@@ -467,6 +457,7 @@
                             <div id="authTraktCode" style="display:none;">
                                 <%= i18n.__("Code:")%>
                                 <input type="text" size="20" readonly/>
+                                <i class="fa fa-times closeTraktCode"></i>
                             </div>
                         </span>
                     <% } %>
