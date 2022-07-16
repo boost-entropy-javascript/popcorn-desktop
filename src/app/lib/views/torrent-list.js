@@ -67,9 +67,11 @@
             var torrentStart = new Backbone.Model({
                 torrent: torrent.url,
                 title: this.model.get('select') && !download ? null : torrent.title,
-                defaultSubtitle: Settings.subtitle_language,
-                device: App.Device.Collection.selected,
-                // file_name: e.target.parentNode.firstChild.innerHTML
+                defaultSubtitle: $("#subs-dropdown .selected-lang")[0] ? $("#subs-dropdown .selected-lang")[0].classList[$("#subs-dropdown .selected-lang")[0].classList.length - 1] : Settings.subtitle_language,
+                imdb_id: $('.list .items .item.selected')[0] ? $('.list .items .item.selected')[0].dataset.imdbId : null,
+                season: $('.tab-episode.active')[0] ? $('.tab-episode.active')[0].attributes['data-season'].value : null,
+                episode: $('.tab-episode.active')[0] ? $('.tab-episode.active')[0].attributes['data-episode'].value : null,
+                device: App.Device.Collection.selected
             });
             App.vent.trigger('stream:start', torrentStart, download ? 'downloadOnly' : '' );
             if (download) {
