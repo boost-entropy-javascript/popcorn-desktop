@@ -261,10 +261,10 @@
             }, 'keydown');
 
             Mousetrap.bind('i', function () {
-                if ((App.PlayerView === undefined || App.PlayerView.isDestroyed) && $('#player').children().length <= 0) {
-                    $('.filter-bar').hide();
-                    $('#header').addClass('header-shadow');
+                if (!App.ViewStack.includes('about')) {
                     App.vent.trigger('about:show');
+                } else {
+                    App.vent.trigger('about:close');
                 }
             }, 'keydown');
         },
