@@ -12,11 +12,12 @@
         events: {
             'click .file-item a': 'openFileSelector',
             'contextmenu .file-item > *:not(.torrent-icon)': 'openMagnet',
-            'click .result-item': 'onlineOpen',
-            'contextmenu .result-item > *': 'openMagnet',
+            'click .result-item > *:not(.item-icon)': 'onlineOpen',
+            'contextmenu .result-item > *:not(.item-icon)': 'openMagnet',
+            'mousedown .result-item .item-icon img': 'openSource',
             'mousedown .item-delete': 'deleteItem',
             'mousedown .item-rename': 'renameItem',
-            'click .magnet-icon': 'openMagnet',
+            'click .file-item .magnet-icon': 'openMagnet',
             'click .torrent-icon': 'openTorrent',
             'click .collection-paste': 'pasteItem',
             'click .collection-import': 'importItem',
@@ -150,6 +151,7 @@
                                     provider: 'thepiratebay.org',
                                     icon: 'tpb',
                                     title: item.title,
+                                    url: item.url,
                                     magnet: item.magnet,
                                     seeds: item.seed,
                                     peers: item.leech,
@@ -187,6 +189,7 @@
                                     provider: '1337x.to',
                                     icon: 'T1337x',
                                     title: item.Name,
+                                    url: item.Url,
                                     magnet: item.Magnet,
                                     seeds: item.Seeders,
                                     peers: item.Leechers,
@@ -224,6 +227,7 @@
                                     provider: 'rarbg.to',
                                     icon: 'rarbg',
                                     title: item.title,
+                                    url: item.info_page,
                                     magnet: item.download,
                                     seeds: item.seeders,
                                     peers: item.leechers,
@@ -261,6 +265,7 @@
                                     provider: 'torrentgalaxy.to',
                                     icon: 'TorrentGalaxy',
                                     title: item.title,
+                                    url: item.url,
                                     magnet: item.magnet,
                                     seeds: item.seed,
                                     peers: item.leech,
@@ -316,7 +321,7 @@
                     that.onlineAddItem(item);
                 })).then(function () {
                     if ($('.loading .maximize-icon').is(':visible')) {
-                        $('.result-item, .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
+                        $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
                     $('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
                     $('.togglesengines').css('visibility', 'visible');
@@ -337,9 +342,9 @@
 
         onlineAddItem: function (item) {
             $('.onlinesearch-info>ul.file-list').append(
-                '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '">'+
+                '<li class="result-item" data-index="' + item.index + '" data-file="' + item.magnet + '" data-source="' + item.url + '">'+
                     '<a>' + item.title + '</a>'+
-                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png" onerror="this.parentElement.innerHTML=`&#xf076`"></div>'+
+                    '<div class="item-icon magnet-icon tooltipped" data-toogle="tooltip" data-placement="left" title="' + item.provider + '"><img src="/src/app/images/icons/' + item.icon + '.png" onerror="this.onerror=null; this.parentElement.innerHTML=`&#xf076`" onload="this.onerror=null; this.onload=null;"></div>'+
                     '<div class="online-health tooltipped" title="' + i18n.__('Seeds') + ' / ' + i18n.__('Peers') + '" data-toggle="tooltip" data-container="body" data-placement="top">'+item.seeds+' / '+item.peers+'</div>'+
                     '<div class="online-size">'+item.size+'</div>'+
                 '</li>'
@@ -347,7 +352,7 @@
         },
 
         onlineOpen: function (e) {
-            var file = e.currentTarget.dataset.file;
+            var file = e.currentTarget.parentNode.dataset.file;
             Settings.droppedMagnet = file;
             window.handleTorrent(file);
         },
@@ -438,6 +443,23 @@
                     torrentFile = path.join(collection ,_file.substring(0, _file.length - 2)).toString(); // avoid ENOENT
             }
             Common.openOrClipboardLink(e, torrentFile, i18n.__('torrent file'), false, true);
+        },
+
+        openSource: function(e) {
+            this.$('.tooltip').css('display', 'none');
+            e.preventDefault();
+            e.stopPropagation();
+            var sourceLink;
+            if (e.currentTarget.parentNode.className.indexOf('file-item') !== -1) {
+                // stored
+                var _file = e.currentTarget.parentNode.innerText,
+                    file = _file.substring(0, _file.length - 2); // avoid ENOENT
+                sourceLink = fs.readFileSync(collection + file, 'utf8');
+            } else {
+                // search result
+                sourceLink = e.currentTarget.parentNode.parentNode.attributes['data-source'].value;
+            }
+            Common.openOrClipboardLink(e, sourceLink, i18n.__('source link'));
         },
 
         deleteItem: function (e) {
