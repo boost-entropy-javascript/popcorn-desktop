@@ -32,6 +32,7 @@
             'change #enableRarbgSearch': 'toggleRarbg',
             'change #enableTgxtorrentSearch': 'toggleTgxtorrent',
             'change #enableNyaaSearch': 'toggleNyaa',
+            'contextmenu #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL': 'openProvider',
             'change .online-categories select': 'setCategory',
         },
 
@@ -105,6 +106,11 @@
 
         toggleNyaa: function () {
             AdvSettings.set('enableNyaaSearch', !Settings.enableNyaaSearch);
+        },
+
+        openProvider: function (e) {
+            e.button = 0;
+            Common.openOrClipboardLink(e, 'https://' + e.target.innerText);
         },
 
         setCategory: function () {
@@ -311,7 +317,7 @@
                             $('#enableNyaaSearchL').attr('title', data.torrents.length + ' results').tooltip('fixTitle').tooltip('show');
                             data.torrents.forEach(function (item) {
                                 const itemModel = {
-                                    provider: 'Nyaa.si',
+                                    provider: 'nyaa.si',
                                     icon: 'nyaa',
                                     title: item.Name,
                                     url: item.Url,
