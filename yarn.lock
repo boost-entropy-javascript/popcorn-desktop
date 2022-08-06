@@ -4834,12 +4834,7 @@ minimatch@^5.1.0:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimist@^1.1.0, minimist@^1.1.3:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
-  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
-
-minimist@^1.2.0, minimist@^1.2.5:
+minimist@^1.1.0, minimist@^1.1.3, minimist@^1.2.0, minimist@^1.2.5:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
@@ -5214,6 +5209,15 @@ nw-builder@^3.5.7:
     update-notifier "5.1.0"
     winresourcer "0.9.0"
     yargs "17.5.1"
+
+nyaa-wrapper@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/nyaa-wrapper/-/nyaa-wrapper-1.0.0.tgz#e8ddbbf60da32855b133d7d7cb9e68afa28b7376"
+  integrity sha512-1URdhuS8kimbyt5cFbJZMsey1e8D01hXR0UTRf3g4M9opqjhH3y0XZCAxTu8UBSS4Kp9AQlI0tX3R8TksLBgyA==
+  dependencies:
+    axios "^0.21"
+    cheerio "^1.0.0-rc.3"
+    got "^11.0.0"
 
 oauth-sign@~0.9.0:
   version "0.9.0"
@@ -7360,11 +7364,12 @@ torrentapi-wrapper3@0.0.5:
   dependencies:
     got "11.x.x"
 
-torrentcollection5@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/torrentcollection5/-/torrentcollection5-1.0.5.tgz#bb9cbcc9bf137d3d479be39bf3a176ebd0c4302c"
-  integrity sha512-ovKMx5nkBGunQMCQvKXhTwvCKZVzG9li/mN3dxBr3xOW83Zrq6OYji1rHF1NVAu5SxfSbwu64W73EumS3tO4Dw==
+torrentcollection5@1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/torrentcollection5/-/torrentcollection5-1.0.6.tgz#619a2a13e86a2fb310b45df1ef50699e063bb10e"
+  integrity sha512-4zXQSJTwlQOLJLK5UcqO4VPHBtQD8heC4rgkysF/gX3SVnyzNtH16tafZqqaPlxH1dN4GYwpPYuGV5vh3al96Q==
   dependencies:
+    nyaa-wrapper "1.0.0"
     thehiddenbay "1.0.2"
     torrentapi-wrapper3 "0.0.5"
     torrentgalaxy "1.0.4"
