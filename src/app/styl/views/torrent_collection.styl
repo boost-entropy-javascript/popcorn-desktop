@@ -21,11 +21,16 @@
         #savedtorrentslabel
             font-size 50px
             opacity 0.07
-            left 80px
+            left 72px
             top 122px
             text-align left
             position absolute
             z-index -1
+            cursor pointer
+            transition opacity .3s
+
+            &:hover
+                opacity 0.17
 
         #searchresultslabel
             font-size 48px
@@ -115,7 +120,7 @@
                 label
                     &:before
                         content '\f0c8'
-                        font-family "Font Awesome 5 Free"
+                        font-family "Font Awesome 6 Free"
                         font-weight 900
                         font-size 12px
                         width 0px
@@ -126,7 +131,7 @@
                         visibility hidden
                     &:after
                         content '\f00c'
-                        font-family "Font Awesome 5 Free"
+                        font-family "Font Awesome 6 Free"
                         font-weight 900
                         font-size 10px
                         margin-right -14px
@@ -347,7 +352,7 @@
 
                     .item-icon
                         position relative
-                        font-family "Font Awesome 5 Free"
+                        font-family "Font Awesome 6 Free"
                         font-weight 900
                         font-style normal
                         font-size 15px
@@ -418,7 +423,6 @@
             margin-left 426px
 
             .collection-paste,
-            .collection-open,
             .collection-import
                 transition all 0.3s
                 cursor pointer
@@ -434,11 +438,6 @@
 
                     &:hover
                         opacity 0.15
-
-            .collection-open
-                position absolute
-                margin-left 5px
-                margin-top 1px
 
             .collection-import-hidden
                 display none
