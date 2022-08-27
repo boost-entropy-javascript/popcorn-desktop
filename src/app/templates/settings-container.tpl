@@ -110,7 +110,7 @@
                     <select name="defaultFilters"><%=select_default_filter%></select>
                     <div class="dropdown-arrow"></div>&nbsp;
                     <% if (Settings.defaultFilters === 'custom') { %>&nbsp;<i class="set-current-filter fa fa-pen tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Set Filters") %>"></i><% } %>
-                    <% if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') { %><i class="reset-current-filter fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Reset Filters") %>"></i><i style="padding-right:80px">&nbsp;</i><% } %>
+                    <% if (Settings.defaultFilters === 'custom' || Settings.defaultFilters === 'remember') { %><i class="reset-current-filter fa fa-rotate-right tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Reset Filters") %>"></i><i style="padding-right:80px">&nbsp;</i><% } %>
                 </div>
             </span>
             <span>
@@ -177,6 +177,10 @@
             <span>
                 <input class="settings-checkbox" name="minimizeToTray" id="minimizeToTray" type="checkbox" <%=(Settings.minimizeToTray? "checked='checked'":"")%>>
                 <label class="settings-label" for="minimizeToTray"><%= i18n.__("Minimize to Tray") %></label>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
+                <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
             </span>
         </div>
     </section>
@@ -540,7 +544,6 @@
                         <option value="<%= encodeURI(movieServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
-                    <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
             <span>
@@ -556,7 +559,6 @@
                         <option value="<%= encodeURI(seriesServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
-                    <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
             <span>
@@ -572,11 +574,15 @@
                         <option value="<%= encodeURI(animeServList[i]).replace(/%20/g, ' ') %>">
                         <% } %>
                     </datalist>
-                    <i class="update-dht fa fa-redo tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
                 </div>
             </span>
             <span id="apiserver_info">
                 <em>* <%= i18n.__("You can add multiple API Servers separated with a , from which it will select randomly (*for load balancing) until it finds the first available") %></em>
+            </span>
+            <span>
+                <input class="settings-checkbox" name="dhtEnable" id="dhtEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
+                <label class="settings-label" for="dhtEnable"><%= i18n.__("Automatically update the API Server URLs") %></label>
+                <i class="update-dht fa fa-rotate tooltipped" data-toggle="tooltip" data-placement="auto" title="<%= i18n.__("Check for updates") %>"></i>
             </span>
         </div>
     </section>
@@ -749,12 +755,8 @@
     </section>
 
     <section id="miscellaneous">
-        <div class="title"><%= i18n.__("Miscellaneous") %></div>
+        <div class="title"><%= i18n.__("Updates") %></div>
         <div class="content">
-            <span>
-                <input class="settings-checkbox" name="dhtEnable" id="dhtEnable" type="checkbox" <%=(Settings.dhtEnable? "checked='checked'":"")%>>
-                <label class="settings-label" for="dhtEnable"><%= i18n.__("Automatically update the API Server URLs") %></label>
-            </span>
             <span>
                 <input class="settings-checkbox" name="updateNotification" id="updateNotification" type="checkbox" <%=(Settings.updateNotification? "checked='checked'":"")%>>
                 <label class="settings-label" for="updateNotification"><%= i18n.__("Show a notification when a new version is available") %></label>
@@ -763,18 +765,14 @@
                 <input class="settings-checkbox" name="automaticUpdating" id="automaticUpdating" type="checkbox" <%=(Settings.automaticUpdating? "checked='checked'":"")%>>
                 <label class="settings-label" for="automaticUpdating"><%= i18n.__("Automatically update the app when a new version is available") %></label>
             </span>
-            <span>
-                <input class="settings-checkbox" name="events" id="events" type="checkbox" <%=(Settings.events? "checked='checked'":"")%>>
-                <label class="settings-label" for="events"><%= i18n.__("Celebrate various events") %></label>
-            </span>
         </div>
     </section>
 
     <div class="btns">
-        <div class="btn-settings rebuild-bookmarks"><i class="fa fa-redo">&nbsp;&nbsp;</i><%= i18n.__("Rebuild bookmarks database") %></div>
+        <div class="btn-settings rebuild-bookmarks"><i class="fa fa-rotate-right">&nbsp;&nbsp;</i><%= i18n.__("Rebuild bookmarks database") %></div>
         <div class="btn-settings flush-bookmarks"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush bookmarks database") %></div>
         <div class="btn-settings flush-databases"><i class="fa fa-trash">&nbsp;&nbsp;</i><%= i18n.__("Flush all databases") %></div>
-        <div class="btn-settings default-settings"><i class="fa fa-redo">&nbsp;&nbsp;</i><%= i18n.__("Reset to Default Settings") %></div>
+        <div class="btn-settings default-settings"><i class="fa fa-rotate-right">&nbsp;&nbsp;</i><%= i18n.__("Reset to Default Settings") %></div>
     </div>
 
 </div>
