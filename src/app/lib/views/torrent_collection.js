@@ -38,6 +38,10 @@
             'change .online-categories select': 'setCategory',
         },
 
+        ui: {
+            spinner: '.spinner'
+        },
+
         initialize: function () {
             if (!fs.existsSync(collection)) {
                 fs.mkdirSync(collection);
@@ -54,6 +58,9 @@
         },
 
         onRender: function () {
+            if (typeof (this.ui.spinner) === 'object') {
+                this.ui.spinner.hide();
+            }
             $('#online-input').focus();
             if (this.files[0]) {
                 $('.notorrents-info').css('display', 'none');
@@ -137,11 +144,9 @@
                 return;
             }
 
-            $('.togglesengines').css('visibility', 'hidden');
-            that.$('.online-search').removeClass('fa-search').addClass('fa-spin fa-spinner');
+            this.ui.spinner.show();
+            that.$('.online-search').addClass('active');
             that.$('.online-search, #enableThepiratebaySearchL, #enable1337xSearchL, #enableRarbgSearchL, #enableTgxtorrentSearchL, #enableNyaaSearchL').attr('title', '0 results').tooltip('fixTitle');
-            $('.onlinesearch-info').hide();
-            $('.onlinesearch-info>ul.file-list').html('');
 
             clearTimeout(hidetooltps);
 
@@ -356,7 +361,6 @@
                 });
             };
 
-            $('.notorrents-info,.torrents-info').hide();
             return Promise.all([
                 piratebay(),
                 leetx(),
@@ -373,14 +377,17 @@
                     $('.tooltip').tooltip('hide');
                 }, 2000);
 
+                $('.onlinesearch-info').hide();
+                $('.onlinesearch-info>ul.file-list').html('');
+                $('.notorrents-info,.torrents-info').hide();
+                that.ui.spinner.hide();
                 return Promise.all(items.map(function (item) {
                     that.onlineAddItem(item);
                 })).then(function () {
                     if ($('.loading .maximize-icon').is(':visible')) {
                         $('.result-item, .result-item > *:not(.item-icon), .collection-paste, .collection-import').addClass('disabled').prop('disabled', true);
                     }
-                    that.$('.online-search').removeClass('fa-spin fa-spinner').addClass('fa-search');
-                    $('.togglesengines').css('visibility', 'visible');
+                    that.$('.online-search').removeClass('active');
                     $('.onlinesearch-info').show();
                     if (items.length === 0) {
                         $('.onlinesearch-info>ul.file-list').html('<br><br><div style="text-align:center;font-size:30px">' + i18n.__('No results found') + '</div>');
