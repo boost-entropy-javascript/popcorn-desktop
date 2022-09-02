@@ -275,29 +275,35 @@
             width auto
             height auto
             margin auto
-            padding 10px
-            padding-bottom 10px
+            padding 14px 14px 10px 14px
             border-radius 4px
             left 0
             right 0
             background: rgba(0, 0, 0, .6)
             display inline-block
 
-            &:hover > .magnet-icon
-                opacity 0.4
+            &:hover
+                > .show-pcontrols,
+                > .magnet-icon
+                    opacity 0.4
+                    transition-delay 0s
 
-                &:hover
-                    opacity 1
+                    &:hover
+                        opacity 1
 
-                &:active
-                    opacity 1
+                    &:active
+                        opacity 1
 
             .magnet-icon
                 float right
                 cursor pointer
-                transition opacity .2s
+                transition opacity .3s
+                transition-delay .3s
                 opacity 0
-                margin-right 2px
+                margin -1px 1px 0 0
+
+                &:hover
+                    opacity 1
 
             span
                 position relative
@@ -328,9 +334,10 @@
             .show-pcontrols
                 float right
                 cursor pointer
-                transition opacity .2s
-                opacity 0.4
-                margin 3px 0 -4px 0
+                transition opacity .3s
+                transition-delay .3s
+                opacity 0
+                margin 2px -1px -4px 0
 
                 &:hover
                     opacity 1
