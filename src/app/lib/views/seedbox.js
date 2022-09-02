@@ -12,7 +12,7 @@
     const supported = ['.mp4', '.m4v', '.avi', '.mov', '.mkv', '.wmv'];
 
     var formatBytes = function (bytes, decimals) {
-        if (bytes === 0) {
+        if (!bytes || bytes < 1) {
             return '0 B';
         }
         let k = 1024,
@@ -104,7 +104,7 @@
                     </span>
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
-                <i class="fa fa-download watched" id="download-${torrent.infoHash}">0 Kb/s</i>
+                <i class="fa fa-download watched" id="download-${torrent.infoHash}" style="margin-right:6px">0 Kb/s</i>
                 <i class="fa fa-upload watched" id="upload-${torrent.infoHash}">0 Kb/s</i>
                 <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left" style="margin-left: 14px;"></i>
               </li>`
@@ -285,6 +285,7 @@
             const oldScroll = $('.seedbox-infos-synopsis').scrollTop();
             const hash = $('.tab-torrent.active')[0].getAttribute('id');
             const thisTorrent = App.WebTorrent.torrents.find(torrent => torrent.infoHash === hash);
+            const isPaused = thisTorrent.paused;
             var torrentStart = new Backbone.Model({
                 torrent: thisTorrent.magnetURI,
                 title: thisTorrent.name,
@@ -292,7 +293,7 @@
                 device: App.Device.Collection.selected,
                 file_name: e.target.parentNode.childNodes[1].innerHTML
             });
-            if (thisTorrent.paused) {
+            if (thisTorrent.paused && target.hasClass('item-play')) {
                 $('#resume-'+hash).show();
                 $('#play-'+hash).hide();
             }
@@ -305,6 +306,8 @@
                 if (target.hasClass('item-play')) {
                     $('#trash-'+hash).addClass('disabled').prop('disabled', true);
                     $('.seedbox .item-play').addClass('disabled').prop('disabled', true);
+                } else if (isPaused) {
+                    this.pauseTorrent(thisTorrent);
                 }
             }, 100);
             App.vent.trigger('stream:start', torrentStart, target.hasClass('item-play') ? '' : 'downloadOnly' );
