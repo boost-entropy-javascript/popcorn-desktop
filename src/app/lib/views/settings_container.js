@@ -26,6 +26,7 @@
             'contextmenu input': 'rightclick_field',
             'click .rebuild-bookmarks': 'rebuildBookmarks',
             'click .flush-bookmarks': 'flushBookmarks',
+            'click .flush-watched': 'flushWatched',
             'click .flush-databases': 'flushAllDatabase',
             'click #faketmpLocation': 'showCacheDirectoryDialog',
             'click #fakedownloadsLocation': 'showDownloadsDirectoryDialog',
@@ -356,6 +357,7 @@
                 case 'seriesTabEnable':
                 case 'animeTabEnable':
                 case 'favoritesTabEnable':
+                case 'watchedTabEnable':
                     value = field.is(':checked');
                     break;
                 case 'httpApiEnabled':
@@ -581,6 +583,14 @@
                     $('.nav-hor.left li:first').click();
                     App.vent.trigger('settings:show');
                     if (AdvSettings.get('startScreen') === 'Favorites') {
+                        $('select[name=start_screen]').change();
+                    }
+                    break;
+                case 'watchedTabEnable':
+                    App.vent.trigger('favorites:list');
+                    $('.nav-hor.left li:first').click();
+                    App.vent.trigger('settings:show');
+                    if (AdvSettings.get('startScreen') === 'Watched') {
                         $('select[name=start_screen]').change();
                     }
                     break;
@@ -875,6 +885,21 @@
             this.alertMessageWait(i18n.__('We are flushing your database'));
 
             Database.deleteBookmarks()
+                .then(function () {
+                    that.alertMessageSuccess(true);
+                });
+        },
+
+        flushWatched: function (e) {
+            var btn = $(e.currentTarget);
+
+            if (!this.areYouSure(btn, i18n.__('Flushing watched...'))) {
+                return;
+            }
+
+            this.alertMessageWait(i18n.__('We are flushing your database'));
+
+            Database.deleteWatched()
                 .then(function () {
                     that.alertMessageSuccess(true);
                 });
