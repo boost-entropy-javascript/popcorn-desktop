@@ -3,7 +3,7 @@
 /********
  * setup *
  ********/
-const nwVersion = '0.79.1',
+const nwVersion = '0.83.0',
   availablePlatforms = ['linux32', 'linux64', 'win32', 'win64', 'osx64'],
   releasesDir = 'build',
   nwFlavor = 'sdk';
@@ -70,21 +70,21 @@ const parsePlatforms = () => {
 const parseReqDeps = () => {
   return new Promise((resolve, reject) => {
     exec(
-      'npm ls --production=true --parseable=true',
+      'yarn list --prod --json',
       {maxBuffer: 1024 * 500},
       (error, stdout, stderr) => {
         // build array
-        let npmList = stdout.split('\n');
-
-        // remove empty or soon-to-be empty
-        npmList = npmList.filter((line) => {
-          return line.replace(process.cwd().toString(), '');
-        });
+        let npmList = JSON.parse(stdout);
 
         // format for nw-builder
-        npmList = npmList.map((line) => {
-          return line.replace(process.cwd(), '.') + '/**';
+        npmList = npmList.data.trees.map((obj) => {
+          let name = obj.name;
+          name = name.replace(/@[\d.]+$/, '');
+          return './node_modules/' + name + '/**';
         });
+
+        // not know why it not add
+        npmList.push('./node_modules/cheerio/**');
 
         // return
         resolve(npmList);
