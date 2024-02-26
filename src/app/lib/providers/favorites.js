@@ -72,23 +72,12 @@
         if (filters.type !== 'All') {
             matched = [];
             for (var i in sorted) {
-                if (sorted[i].imdb_id.indexOf('mal') !== -1) {
+                if (sorted[i].original_language === 'ja' && sorted[i].genres.includes('animation')) {
                     matched.push(sorted[i]);
                 }
             }
-
-            if (filters.type === 'Series') {
-                for (var k = sorted.length; k--;) {
-                    if (sorted[k].country === 'JP' && sorted[k].genres.includes('animation')) {
-                        sorted.splice(k, 1);
-                    }
-                }
-            } else if (filters.type === 'Anime') {
-                for (var k = sorted.length; k--;) {
-                    if (sorted[k].country !== 'JP' || !sorted[k].genres.includes('animation')) {
-                        sorted.splice(k, 1);
-                    }
-                }
+            if (filters.type === 'Anime') {
+                sorted = matched;
             } else {
                 for (var j in matched) {
                     for (var k = sorted.length; k--;) {
