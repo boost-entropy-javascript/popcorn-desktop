@@ -46,7 +46,7 @@
               scrollable()
 
               li
-                  padding: 0px 15px
+                  padding: 0px 17px 0px 0px
                   margin: 1px 0px 1px 1px
                   float: left
                   width: calc(100% - 7px)
@@ -72,6 +72,14 @@
                   .watched:not(.fa-download):not(.fa-upload)
                       &:hover
                           color: $ShowWatchedIcon_true
+
+                  .pause-torrent
+                      width 50px
+                      padding 10px 20px
+
+                  .resume-torrent
+                      width 50px
+                      padding 10px 19px
 
               li:nth-child(odd)
                   background-color $ShowBgColor2
@@ -105,12 +113,12 @@
 
                   span
                       float: left
-                      margin: 0px 17px 0px 5px
+                      margin: 0px
 
                   div
                       white-space: nowrap
                       border-left: 1px solid $ShowBgColor1
-                      padding-left: 30px
+                      padding-left: 25px
                       text-align: left
                       overflow: hidden
                       text-overflow: ellipsis
@@ -266,13 +274,12 @@
                       color: $ShowText2
 
                       .seedbox-infos-date
-                          margin-left: 5px
                           overflow: hidden
                           white-space: nowrap
                           text-overflow: ellipsis
 
                       i
-                          margin-right: 5px
+                          margin-right: 8px
                           font-family: $MainFont, "Font Awesome 6 Free"
 
                   .seedbox-infos-synopsis
@@ -282,7 +289,8 @@
                       text-align: justify
                       margin-top: 14px
                       margin-left: -18px
-                      padding: 4px 15px 5px 0
+                      padding: 4px 6px 5px 0
+                      margin-right: 9px
                       height: calc(100vh - 338px)
                       scrollable()
 
@@ -337,19 +345,21 @@
                                   color rgba($FileSelectorText, 0.4)
                                   transition all 0.3s
                                   cursor pointer
-                                  left calc(100% + 7px)
-                                  top -18px
+                                  left calc(100% - 23px)
+                                  top -25px
+                                  padding 10px
 
                                   &:hover
                                       color $CloseButtonHover
 
                               .item-play
-                                  left -8px
+                                  left -18px
                                   position relative
                                   color rgba($FileSelectorText, 0.4)
                                   transition all 0.3s
                                   cursor pointer
-                                  top -18px
+                                  top -25px
+                                  padding 10px
 
                                   &:hover
                                       color $CloseButtonHover
@@ -511,7 +521,7 @@
             text-overflow: clip;
             white-space: nowrap;
             cursor: pointer;
-            transition: all 0.7s ease, color 0.3s, background-color 0.3s;
+            transition: all 0.7s ease, color 0.1s, background-color 0.3s;
             transition-delay: 0.6s, 0s, 0s;
 
             &:hover
@@ -526,6 +536,9 @@
                     opacity: 1;
                     transition-delay: 0.3s;
 
+                & > i
+                    color: $CloseButtonHover;
+
             &.active
                 color: #fff;
                 background-color: #27ae60;
@@ -538,6 +551,7 @@
                 font-size: 12px;
                 float: right;
                 pointer-events: none;
+                transition: color 0.3s;
 
             & span
                 opacity: 0;

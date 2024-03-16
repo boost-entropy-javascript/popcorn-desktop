@@ -111,9 +111,9 @@
                     </span>
                     <div id="title-${torrent.infoHash}">${App.plugins.mediaName.getMediaName(torrent)}</div>
                 </a>
-                <i class="fa fa-download watched" id="download-${torrent.infoHash}" style="margin-right:6px">0 Kb/s</i>
+                <i class="fa fa-download watched" id="download-${torrent.infoHash}" style="margin-right:14px">0 Kb/s</i>
                 <i class="fa fa-upload watched" id="upload-${torrent.infoHash}">0 Kb/s</i>
-                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left" style="margin-left: 14px;"></i>
+                <i class="fa fa-trash watched trash-torrent tooltipped" id="trash-${torrent.infoHash}" title="Remove" data-toggle="tooltip" data-placement="left" style="margin-left: 15px;"></i>
               </li>`
             );
             $('.seedbox-overview').show();
@@ -255,8 +255,8 @@
                     }
                 });
                 $(`#${torrent.infoHash}`).remove();
-                if ($('.tab-torrent').length <= 0) {
-                    $('.notorrents-info').show();
+                if ($('.seedbox-torrents .tab-torrent').length <= 0) {
+                    $('.seedbox-torrents .notorrents-info').show();
                     $('.seedbox-overview').hide();
                 }
             }
