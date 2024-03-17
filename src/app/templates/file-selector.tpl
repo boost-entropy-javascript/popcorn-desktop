@@ -10,9 +10,9 @@
                     if (file.display !== false) { %>
                 <li class="file-item" data-index="<%=file.index%>" data-file="<%=file.path%>">
                     <% if (Settings.activateSeedbox && !localFile) { %>
-                    <i class="fa fa-download item-download"></i>
+                    <i class="fa fa-download item-download tooltipped" title="<%=i18n.__('Download')%>" data-placement="top" data-container="body"></i>
                     <span style="margin-right: 12px"><% } else { %><span><% } %><%=Common.fileSize(file.length) %></span>
-                    <a><%=file.name %></a>
+                    <a class="tooltipped" data-titleholder="<%= file.name.replaceAll('.', '.\u200B') %>" data-placement="top" data-container="body" onmouseenter="if (this.offsetWidth < this.scrollWidth) { $(this).attr('data-original-title', $(this).attr('data-titleholder')); } else { $(this).attr('data-original-title', ''); }"><%=file.name %></a>
                 </li>
             <% }}); %>
         </ul>
