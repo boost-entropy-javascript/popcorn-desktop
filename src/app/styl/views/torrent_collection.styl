@@ -191,16 +191,18 @@
                 background-color $InputBoxBg
                 resize none
                 color $InputBoxText
-                font-family $Font, $AlternateFont
+                font-family $MainFont, $AlternateFont
                 font-size 13px
                 padding-left 10px
                 cursor text
                 outline 0 !important
                 height 30px
                 min-width 410px
+                margin-right 2px
 
             .online-search
                 padding 5px 0 5px 5px
+                border-radius 50%
                 cursor pointer
                 color $SettingsText1
                 opacity 0.5
@@ -245,7 +247,7 @@
                     background-color $InputBoxBg
                     cursor pointer
                     color $InputBoxText
-                    font-family $Font, $AlternateFont
+                    font-family $MainFont, $AlternateFont
                     font-size 13px
                     float left
                     outline 0
@@ -303,15 +305,16 @@
 
             .online-back
                 position fixed
-                font-size 25px
-                color $TextError
+                font-size 0.9em
+                color $FilterBarIcon
                 cursor pointer
-                right 7%
-                top 152px
+                left 50%
+                top 105px
+                margin-left 205px
+                padding 3px 5px
+                border-radius 50%
+                z-index: 10
                 transition color .3s
-
-                &:hover
-                    color $Text1
 
             ul
                 &.file-list
@@ -440,7 +443,7 @@
         .collection-actions
             position absolute
             color $SettingsText1
-            top 5px
+            top 6px
             margin-left 462px
 
             .collection-paste,
@@ -449,6 +452,7 @@
                 cursor pointer
                 opacity 0.3
                 padding 0 5px 8px 5px
+                border-radius 50%
 
                 &:hover
                     opacity 1
