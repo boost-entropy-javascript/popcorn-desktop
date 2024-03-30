@@ -14,6 +14,7 @@
         events: {
             'click .close-icon': 'closeSelector',
             'click .file-item *': 'startStreaming',
+            'contextmenu .file-item a': 'copytoclip',
             'click .store-torrent': 'storeTorrent',
             'click .playerchoicemenu li a': 'selectPlayer',
             'click .playerchoicehelp': 'showPlayerList',
@@ -101,6 +102,8 @@
             }
         },
 
+        copytoclip: (e) => Common.openOrClipboardLink(e, $(e.target)[0].textContent, i18n.__('filename'), true),
+
         isTorrentStored: function () {
             var target = App.settings['databaseLocation'] + '/TorrentCollection/';
 
@@ -140,13 +143,13 @@
 
                 if (this.isTorrentStored()) {
                     fs.unlinkSync(target + file); // remove the torrent
-                    win.debug('Torrent Collection: deleted', file);
+                    win.info('Torrent Collection: deleted', file);
                 } else {
                     if (!fs.existsSync(target)) {
                         fs.mkdir(target); // create directory if needed
                     }
                     fs.writeFileSync(target + file, fs.readFileSync(source + file)); // save torrent
-                    win.debug('Torrent Collection: added', file);
+                    win.info('Torrent Collection: added', file);
                 }
             } else if (Settings.droppedMagnet) {
                 _file = Settings.droppedMagnet,
@@ -157,13 +160,13 @@
                         file = Settings.droppedStoredMagnet;
                     }
                     fs.unlinkSync(target + file); // remove the magnet
-                    win.debug('Torrent Collection: deleted', file);
+                    win.info('Torrent Collection: deleted', file);
                 } else {
                     if (!fs.existsSync(target)) {
                         fs.mkdir(target); // create directory if needed
                     }
                     fs.writeFileSync(target + file, _file); // save magnet link inside readable file
-                    win.debug('Torrent Collection: added', file);
+                    win.info('Torrent Collection: added', file);
                 }
             }
             this.isTorrentStored(); // trigger button change

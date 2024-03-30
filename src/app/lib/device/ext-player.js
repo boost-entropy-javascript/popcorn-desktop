@@ -184,7 +184,6 @@
                     var dataBuff = fs.readFileSync(subtitle);
                     //var targetEncodingCharset = 'utf8';
                     var detectedEncoding = charsetDetect.detect(dataBuff).encoding;
-                    win.debug('Subtitles charset detected: %s', detectedEncoding);
                     if (detectedEncoding.toLowerCase() === 'utf-8') {
                         cmdSub += '-utf8 ';
                     }
@@ -298,9 +297,9 @@
                 });
             }, function (err) {
                 if (err) {
-                    win.error('External Players: scan', err);
+                    win.error('External Player Scan:', err);
                 } else {
-                    win.info('External Players: scan finished');
+                    win.info('External Player Scan: Completed');
                 }
             });
         }

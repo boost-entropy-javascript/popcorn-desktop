@@ -294,7 +294,7 @@
                 App.vent.trigger(itemtype + ':showDetail', this.model.set(data));
             }.bind(this))
                 .catch(function (err) {
-                    console.error('error showing detail:', err);
+                    win.error('error showing detail:', err);
                     $('.spinner').hide();
                     $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                 });
@@ -362,7 +362,7 @@
             }).then(function () {
                 return Database.addBookmark(imdb, itemtype);
             }).then(function () {
-                console.log('Bookmark added (' + imdb + ')');
+                win.info('Bookmark added (' + imdb + ')');
             }.bind(this));
         },
 
@@ -378,7 +378,7 @@
             }());
 
             return Database.deleteBookmark(imdb).then(function () {
-                console.log('Bookmark deleted (' + imdb + ')');
+                win.info('Bookmark deleted (' + imdb + ')');
                 return Database[dbCall](imdb);
             });
         },
@@ -426,6 +426,7 @@
                 }.bind(this)).then(function () {
                         var id = window.setTimeout(function() {}, 0);
                         while (id--) { window.clearTimeout(id); }
+                        $('.notification_alert').stop();
                         App.vent.trigger('notification:close');
                         App.vent.trigger('notification:show', new App.Model.Notification({
                             title: '',
@@ -449,7 +450,7 @@
                         this.setTooltips();
                     }
                 }.bind(this)).catch(function (err) {
-                    console.error('item.addBookmarked failed:', err);
+                    win.error('item.addBookmarked failed:', err);
                     $('.notification_alert').text(i18n.__('Error loading data, try again later...')).fadeIn('fast').delay(2500).fadeOut('fast');
                     this.ui.bookmarkIcon.removeClass('selected');
                 }.bind(this));
