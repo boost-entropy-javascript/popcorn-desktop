@@ -296,6 +296,7 @@
         });
       }
 
+      this.ui.sorterValue.data('value', sorter);
       this.ui.sorterValue.text($(e.target).text());
       this.previousSort = sorter;
     },
@@ -308,6 +309,7 @@
       $(e.target).addClass('active');
 
       var type = $(e.target).attr('data-value');
+      this.ui.typeValue.data('value', type);
       this.ui.typeValue.text($(e.target).text());
 
       this.model.set({
@@ -323,6 +325,7 @@
 
       var genre = $(e.target).attr('data-value');
 
+      this.ui.genreValue.data('value', genre);
       this.ui.genreValue.text($(e.target).text());
 
       this.model.set({
@@ -337,6 +340,7 @@
       $(e.target).addClass('active');
 
       const rating = $(e.target).attr('data-value');
+      this.ui.ratingValue.data('value', rating);
       this.ui.ratingValue.text($(e.target).text());
 
       this.model.set({
