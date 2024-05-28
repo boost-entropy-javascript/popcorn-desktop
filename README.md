@@ -53,6 +53,14 @@ Also, if you keep a [_Brewfile_](https://github.com/Homebrew/homebrew-bundle#usa
   cask "popcorn-time" #, args: { "no-quarantine": true }
   ~~~
 
+#### Apple Silicon:
+
+If you have Apple Silicon (M-series chips), you need to use the `arm64` release. Apple Silicon apps are required to be signed and notarised with an Apple developer account. So it is necessary to manually remove the quarantine flag:
+
+```
+xattr -c "/Applications/Popcorn-Time.app/"
+```
+
 
 ### Linux - Debian/Ubuntu based distros:
 Download and install:
